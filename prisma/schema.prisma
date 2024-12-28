@@ -11,10 +11,15 @@ datasource db {
 }
 
 model Note {
-    id        Int      @id @default(autoincrement())
-    title     String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    id         String    @id @default(cuid())
+    title      String
+    content    String
+    tags       String[]
+    isArchived DateTime?
+    userId     String
+    user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    createdAt  DateTime  @default(now())
+    updatedAt  DateTime  @updatedAt
 
     @@index([title])
 }
@@ -32,6 +37,8 @@ model User {
     twoFactorConfirmation TwoFactorConfirmation?
     createdAt             DateTime               @default(now())
     updatedAt             DateTime               @updatedAt
+
+    notes Note[]
 }
 
 model VerificationToken {

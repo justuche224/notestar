@@ -39,3 +39,19 @@ export const RegisterSchema = z
     message: "Passwords do not match",
     path: ["confirmPassword"],
   });
+
+export const NoteSchema = z.object({
+  title: z.string().min(1, { message: "Title is required" }),
+  content: z.string().min(1, { message: "Content is required" }),
+  tags: z
+    .union([
+      z.string().transform((val) =>
+        val
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter((tag) => tag !== ""),
+      ),
+      z.array(z.string()),
+    ])
+    .default([]),
+});
