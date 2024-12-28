@@ -1,13 +1,25 @@
+import { redirect } from "next/navigation";
 import React from "react";
-import LogoutButton from "~/components/logout-button";
 import { currentUser } from "~/server/auth/current-user";
+import Notes from "./_components/Notes";
+import { db } from "~/server/db";
 
 const page = async () => {
   const user = await currentUser();
+  if (!user?.id) return redirect("/auth/login");
+  const notes = await db.note.findMany({
+    where: { userId: user.id },
+    select: {
+      id: true,
+      title: true,
+      content: true,
+      createdAt: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
   return (
     <div>
-      <div>{JSON.stringify(user)}</div>
-      <LogoutButton />
+      <Notes notes={notes} />
     </div>
   );
 };

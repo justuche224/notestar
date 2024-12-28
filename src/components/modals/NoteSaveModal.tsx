@@ -28,6 +28,7 @@ import { useRouter } from "next/navigation";
 import DOMPurify from "dompurify";
 import sanitizeConfig from "~/utils/sanitize-config";
 import { saveNote } from "~/server/actions/notes/save-note";
+import logger from "~/utils/logger";
 
 interface NoteSaveModalProps {
   content: string;
@@ -37,6 +38,8 @@ interface NoteSaveModalProps {
 type NoteValues = z.infer<typeof NoteSchema>;
 
 export const NoteSaveModal = ({ content, setOpenSave }: NoteSaveModalProps) => {
+  logger.log("before purification");
+  logger.log(content);
   const form = useForm<NoteValues>({
     resolver: zodResolver(NoteSchema),
     defaultValues: {
@@ -56,6 +59,8 @@ export const NoteSaveModal = ({ content, setOpenSave }: NoteSaveModalProps) => {
     setSuccess("");
     setShouldExit(exit);
     const content = DOMPurify.sanitize(values.content, sanitizeConfig);
+    logger.log(content);
+    logger.log("after purification");
     values.content = content;
 
     startTransition(async () => {

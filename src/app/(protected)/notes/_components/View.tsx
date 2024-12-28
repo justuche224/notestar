@@ -21,6 +21,7 @@ const extensions = [
 ];
 
 const Viewer = ({ content }: { content: string }) => {
+  console.log(content);
   const sanitizedHtml = DOMPurify.sanitize(content, sanitizeConfig);
   return (
     <EditorProvider
