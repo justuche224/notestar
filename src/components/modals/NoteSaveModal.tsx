@@ -17,8 +17,8 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-import FormError from "~/app/(protected)/auth/_components/form-error";
-import FormSuccess from "~/app/(protected)/auth/_components/form-success";
+import FormError from "~/app/auth/_components/form-error";
+import FormSuccess from "~/app/auth/_components/form-success";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { ClipLoader } from "react-spinners";

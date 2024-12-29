@@ -17,8 +17,8 @@ interface NotesProps {
 
 const Notes = ({ notes }: NotesProps) => {
   return (
-    <div className="min-h-screen bg-custom-dark-900 p-4">
-      <div className="mx-auto grid max-w-7xl gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div className="min-h-screen p-4">
+      <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {notes.map((note, index) => (
           <motion.div
             key={note.id}

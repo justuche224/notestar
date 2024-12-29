@@ -20,7 +20,9 @@ export default async function RootLayout({
     <html lang="en" className={`${GeistSans.variable} dark`}>
       <body>
         <NextTopLoader color="yellow" zIndex={9999} />
-        <SessionProvider session={session}>{children}</SessionProvider>
+        <SessionProvider session={session}>
+          <main>{children}</main>
+        </SessionProvider>
       </body>
     </html>
   );
