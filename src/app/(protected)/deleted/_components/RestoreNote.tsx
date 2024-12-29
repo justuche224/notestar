@@ -15,7 +15,7 @@ const RestoreNote = ({ noteId }: { noteId: string }) => {
     startTransition(async () => {
       await restoreNoteServer(noteId).then((data) => {
         if (data.error) toast.error(data.error);
-        if (data.success) toast.success("Note Deleted!");
+        if (data.success) toast.success("Note Restored!");
       });
     });
   };
