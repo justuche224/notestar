@@ -8,7 +8,7 @@ const page = async () => {
   const user = await currentUser();
   if (!user?.id) return redirect("/auth/login");
   const notes = await db.note.findMany({
-    where: { userId: user.id },
+    where: { userId: user.id, isDeleted: null, isArchived: null },
     select: {
       id: true,
       title: true,

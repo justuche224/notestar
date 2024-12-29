@@ -21,6 +21,8 @@ export type SaveNoteResponse = {
   };
 };
 
+//TODO check character count
+
 export const saveNote = async (
   values: NoteValues,
 ): Promise<SaveNoteResponse> => {

@@ -4,6 +4,7 @@ import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
 import { auth } from "~/server/auth/auth";
 import { SessionProvider } from "next-auth/react";
+import { Toaster } from "~/components/ui/sonner";
 import NextTopLoader from "nextjs-toploader";
 
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default async function RootLayout({
         <SessionProvider session={session}>
           <main>{children}</main>
         </SessionProvider>
+        <Toaster position="top-center" />
       </body>
     </html>
   );

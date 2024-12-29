@@ -16,6 +16,7 @@ model Note {
     content    String
     tags       String[]
     isArchived DateTime?
+    isDeleted  DateTime?
     userId     String
     user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
     createdAt  DateTime  @default(now())
