@@ -1,5 +1,5 @@
 "use client";
-import { Trash } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import { useTransition, useState } from "react";
 import { ClipLoader } from "react-spinners";
 import { toast } from "sonner";
@@ -40,7 +40,7 @@ const DeleteNote = ({ noteId }: { noteId: string }) => {
           disabled={isPending}
           className="rounded-md bg-red-500 px-3 py-1.5 text-sm font-medium text-custom-dark-900 transition-all duration-300 hover:bg-red-400 hover:shadow-lg hover:shadow-custom-yellow-500/20"
         >
-          <Trash />
+          <Trash2 />
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -57,7 +57,7 @@ const DeleteNote = ({ noteId }: { noteId: string }) => {
             onClick={deleteNote}
             className="rounded-md bg-red-500 px-3 py-1.5 text-sm font-medium text-custom-dark-900 transition-all duration-300 hover:bg-red-400 hover:shadow-lg hover:shadow-custom-yellow-500/20"
           >
-            {isPending ? <ClipLoader size={16} color="black" /> : <Trash />}
+            {isPending ? <ClipLoader size={16} color="black" /> : <Trash2 />}
           </Button>
         </DialogFooter>
       </DialogContent>

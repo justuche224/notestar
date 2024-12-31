@@ -1,4 +1,4 @@
-"use client";
+import React from "react";
 import {
   Card,
   CardContent,
@@ -9,16 +9,17 @@ import {
 import Link from "next/link";
 import StyledNoteViewer from "~/components/styled-note-viewer";
 import DeleteNote from "./DeleteNote";
+import UnArchiveNote from "./UnArchiveNote";
 import NoteMenu from "~/components/NoteMenu";
 
 interface NoteCardProps {
   id: string;
   title: string;
   content: string;
-  createdAt: Date;
+  isArchived: Date | null;
 }
 
-export function NoteCard({ id, title, content, createdAt }: NoteCardProps) {
+export function NoteCard({ id, title, content, isArchived }: NoteCardProps) {
   const truncatedContent =
     content.length > 100 ? content.slice(0, 300) + "..." : content;
 
@@ -28,7 +29,7 @@ export function NoteCard({ id, title, content, createdAt }: NoteCardProps) {
         <CardTitle className="flex items-center justify-between text-lg font-semibold text-custom-yellow-500 transition-colors duration-300">
           <span> {title || "Untitled Note"}</span>
           <span>
-            <NoteMenu note={{ id }} />
+            <NoteMenu note={{ id, isArchived: isArchived! }} />
           </span>
         </CardTitle>
       </CardHeader>
@@ -43,13 +44,19 @@ export function NoteCard({ id, title, content, createdAt }: NoteCardProps) {
         </CardContent>
       </Link>
       <CardFooter className="flex items-center justify-between border-t border-custom-dark-700 bg-custom-dark-900/30 p-3">
-        <span className="text-xs text-custom-neutral-500">
-          {new Date(createdAt).toLocaleDateString(undefined, {
-            month: "short",
-            day: "numeric",
-          })}
-        </span>
-        <DeleteNote noteId={id} />
+        {isArchived && (
+          <span className="text-xs text-custom-neutral-500">
+            Archived on{" "}
+            {new Date(isArchived).toLocaleDateString(undefined, {
+              month: "short",
+              day: "numeric",
+            })}
+          </span>
+        )}
+        <div className="flex items-center gap-2">
+          <DeleteNote noteId={id} />
+          <UnArchiveNote noteId={id} />
+        </div>
       </CardFooter>
     </Card>
   );

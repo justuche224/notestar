@@ -10,6 +10,7 @@ import Link from "next/link";
 import StyledNoteViewer from "~/components/styled-note-viewer";
 import DeleteNote from "./DeleteNote";
 import RestoreNote from "./RestoreNote";
+import NoteMenu from "~/components/NoteMenu";
 
 interface NoteCardProps {
   id: string;
@@ -25,8 +26,11 @@ export function NoteCard({ id, title, content, isDeleted }: NoteCardProps) {
   return (
     <Card className="group flex h-[280px] w-full cursor-pointer flex-col overflow-hidden rounded-lg border border-custom-dark-700 bg-custom-dark-900 shadow-lg transition-all duration-300 hover:border-custom-yellow-600 hover:shadow-custom-yellow-500/10 focus:border-custom-yellow-600 focus:shadow-custom-yellow-500/10">
       <CardHeader className="border-b border-custom-dark-700 bg-custom-dark-900/50 p-4">
-        <CardTitle className="text-lg font-semibold text-custom-yellow-500 transition-colors duration-300 group-hover:text-custom-yellow-400">
-          {title || "Untitled Note"}
+        <CardTitle className="flex items-center justify-between text-lg font-semibold text-custom-yellow-500 transition-colors duration-300">
+          <span> {title || "Untitled Note"}</span>
+          <span>
+            <NoteMenu note={{ id, isDeleted: isDeleted! }} />
+          </span>
         </CardTitle>
       </CardHeader>
       <Link

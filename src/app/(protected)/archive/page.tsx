@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import React from "react";
 import { currentUser } from "~/server/auth/current-user";
 import { db } from "~/server/db";
+import Notes from "./_components/Notes";
 
 const page = async () => {
   const user = await currentUser();
@@ -18,7 +19,7 @@ const page = async () => {
       isArchived: "desc",
     },
   });
-  return <div>page</div>;
+  return <Notes notes={notes} />;
 };
 
 export default page;
