@@ -1,29 +1,92 @@
-# Create T3 App
+# Notestar
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+A modern rich text editor with built-in database integration, table support, and task management capabilities.
 
-## What's next? How do I make an app with this?
+## Features
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+- 📝 Rich text editing with formatting options
+- 📊 Table creation and management
+- ✅ Task tracking system
+- 🗄️ Archive functionality
+- 🗑️ Soft delete with recovery options
+- 📱 Responsive design
+- 🔐 Authentication system
+- 📨 Email integration
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Prerequisites
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+Before you begin, ensure you have the following installed:
 
-## Learn More
+- Node.js
+- pnpm
+- A database supported by Prisma
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## Getting Started
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+1. Clone the repository:
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+```bash
+git clone https://github.com/justuche224/notestar.git
+cd notestar
+```
 
-## How do I deploy this?
+2. Create a `.env` file in the root directory with the following variables:
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+```env
+DATABASE_URL=""          # Your database connection string
+AUTH_SECRET=""          # Secret key for authentication
+NODEMAILER_APP_PASS="" # App password for email service
+NODEMAILER_EMAIL=""    # Email address for notifications
+CLIENT_URL="http://localhost:3000"  # Your app's URL
+```
+
+3. Install dependencies:
+
+```bash
+pnpm install
+```
+
+4. Set up the database:
+
+```bash
+pnpm db:push
+```
+
+5. Start the development server:
+
+```bash
+pnpm dev
+# or
+pnpm dev:turbo
+```
+
+## Available Scripts
+
+- `pnpm build` - Build the application for production
+- `pnpm check` - Run linting and type checking
+- `pnpm dev` - Start development server
+- `pnpm dev:turbo` - Start development server with Turbo
+- `pnpm preview` - Build and start production server locally
+- `pnpm start` - Start production server
+- `pnpm lint` - Run linter
+- `pnpm lint:fix` - Fix linting issues
+- `pnpm typecheck` - Run TypeScript type checking
+- `pnpm format:write` - Format code with Prettier
+- `pnpm format:check` - Check code formatting
+
+### Database Commands
+
+- `pnpm db:generate` - Generate Prisma migrations
+- `pnpm db:migrate` - Deploy Prisma migrations
+- `pnpm db:push` - Push schema changes to database
+- `pnpm db:studio` - Open Prisma Studio
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## Acknowledgments
+
+This project was initially generated using [create-t3-app](https://github.com/t3-oss/create-t3-app), a modern full-stack framework for building web applications with TypeScript, Next.js, Prisma, and tRPC.
+
+## License
