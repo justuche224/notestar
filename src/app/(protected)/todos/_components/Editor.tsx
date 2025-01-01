@@ -1,14 +1,4 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
-import { useState, useTransition } from "react";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "~/components/ui/card";
+"use client";
 import {
   Form,
   FormControl,
@@ -17,44 +7,104 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/ui/form";
-import FormError from "~/app/auth/_components/form-error";
-import FormSuccess from "~/app/auth/_components/form-success";
+import Image from "next/image";
+import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "~/components/ui/card";
+import type { Editor as EditorType } from "@tiptap/react";
+import "./styles.css";
+import Document from "@tiptap/extension-document";
+import Paragraph from "@tiptap/extension-paragraph";
+import TaskItem from "@tiptap/extension-task-item";
+import TaskList from "@tiptap/extension-task-list";
+import Text from "@tiptap/extension-text";
+import { EditorContent, useEditor } from "@tiptap/react";
+import React, { useState, useTransition } from "react";
+import type z from "zod";
+import { TodoSchema } from "~/schemas";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "~/components/ui/input";
+import FormSuccess from "~/app/auth/_components/form-success";
+import FormError from "~/app/auth/_components/form-error";
 import { Button } from "~/components/ui/button";
 import { ClipLoader } from "react-spinners";
-import { NoteSchema } from "~/schemas";
-import type z from "zod";
 import { useRouter } from "next/navigation";
 import DOMPurify from "dompurify";
 import sanitizeConfig from "~/utils/sanitize-config";
-import { saveNote } from "~/server/actions/notes/save-note";
+import { saveTodo } from "~/server/actions/todos/save-todo";
 import logger from "~/utils/logger";
 
-interface NoteSaveModalProps {
+const CustomDocument = Document.extend({
+  content: "taskList",
+});
+
+const CustomTaskItem = TaskItem.extend({
+  content: "inline*",
+});
+
+const Editor = () => {
+  const [openSave, setOpenSave] = useState(false);
+  const [content, setContent] = useState(`
+      <ul data-type="taskList">
+        <li data-type="taskItem" data-checked="false"></li>
+      </ul>
+    `);
+  const handleUpdate = ({ editor }: { editor: EditorType }) => {
+    const newContent = editor.getHTML();
+    setContent(newContent);
+  };
+  const editor = useEditor({
+    extensions: [CustomDocument, Paragraph, Text, TaskList, CustomTaskItem],
+    content,
+    onUpdate: handleUpdate,
+  });
+
+  return (
+    <div className="editor-wrapper">
+      {openSave && <SaveForm content={content} setOpenSave={setOpenSave} />}
+      <div className="flex w-full justify-end">
+        <Button
+          onClick={() => setOpenSave(true)}
+          className="rounded-md bg-custom-yellow-500 px-3 py-1.5 text-sm font-medium text-custom-dark-900 transition-all duration-300 hover:bg-custom-yellow-400 hover:shadow-lg hover:shadow-custom-yellow-500/20"
+        >
+          Save Todos
+        </Button>
+      </div>
+      <EditorContent editor={editor} />
+    </div>
+  );
+};
+
+export default Editor;
+
+type TodoValues = z.infer<typeof TodoSchema>;
+
+const SaveForm = ({
+  content,
+  setOpenSave,
+}: {
   content: string;
   setOpenSave: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-type NoteValues = z.infer<typeof NoteSchema>;
-
-export const NoteSaveModal = ({ content, setOpenSave }: NoteSaveModalProps) => {
-  logger.log("before purification");
-  logger.log(content);
-  const form = useForm<NoteValues>({
-    resolver: zodResolver(NoteSchema),
+}) => {
+  const [isPending, startTransition] = useTransition();
+  const [shouldExit, setShouldExit] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const form = useForm<TodoValues>({
+    resolver: zodResolver(TodoSchema),
     defaultValues: {
       content,
       title: "",
       tags: [],
     },
   });
-
-  const [isPending, startTransition] = useTransition();
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
-  const [shouldExit, setShouldExit] = useState(false);
   const router = useRouter();
-  const onSubmit = (values: NoteValues, exit: boolean) => {
+  const onSubmit = (values: TodoValues, exit: boolean) => {
     setError("");
     setSuccess("");
     setShouldExit(exit);
@@ -64,11 +114,11 @@ export const NoteSaveModal = ({ content, setOpenSave }: NoteSaveModalProps) => {
     values.content = content;
 
     startTransition(async () => {
-      await saveNote(values).then((data) => {
+      await saveTodo(values).then((data) => {
         if (data.success) {
           setError("");
           if (exit) {
-            return router.push("/notes");
+            return router.push("/todos");
           }
           setOpenSave(false);
         }
@@ -117,7 +167,7 @@ export const NoteSaveModal = ({ content, setOpenSave }: NoteSaveModalProps) => {
                       <FormControl>
                         <Input
                           {...field}
-                          placeholder="Note title"
+                          placeholder="Todo title"
                           type="text"
                           disabled={isPending}
                           className="w-full rounded-lg border border-yellow-600/20 bg-zinc-800 px-4 py-4 text-sm text-gray-200 outline-yellow-500 placeholder:text-gray-500"
@@ -187,7 +237,6 @@ export const NoteSaveModal = ({ content, setOpenSave }: NoteSaveModalProps) => {
           </Form>
         </CardContent>
         <CardFooter className="mt-4 flex items-center justify-center text-center font-semibold text-yellow-500 hover:text-yellow-400 hover:underline">
-          {" "}
           <Button onClick={() => setOpenSave(false)}>Close</Button>
         </CardFooter>
       </Card>

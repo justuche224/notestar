@@ -1,8 +1,8 @@
 import React from "react";
-import PermanentlyDeleteButton from "~/components/permanent-delete-button";
+import ComingSoon from "~/components/ComingSoon";
 
 const page = () => {
-  return <PermanentlyDeleteButton noteId="dfksfasdkasfahsd" />;
+  return <ComingSoon />;
 };
 
 export default page;

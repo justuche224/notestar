@@ -1,14 +1,13 @@
 import { redirect } from "next/navigation";
 import React from "react";
 import { currentUser } from "~/server/auth/current-user";
-import Notes from "./_components/Notes";
+import Tasks from "./_components/Tasks";
 import { db } from "~/server/db";
-import logger from "~/utils/logger";
 
 const page = async () => {
   const user = await currentUser();
   if (!user?.id) return redirect("/auth/login");
-  const notes = await db.note.findMany({
+  const todos = await db.todo.findMany({
     where: { userId: user.id, isDeleted: null, isArchived: null },
     select: {
       id: true,
@@ -18,11 +17,10 @@ const page = async () => {
     },
     orderBy: { createdAt: "desc" },
   });
-  logger.log(notes);
 
   return (
     <div>
-      <Notes serverNotes={notes} />
+      <Tasks serverTasks={todos} />
     </div>
   );
 };

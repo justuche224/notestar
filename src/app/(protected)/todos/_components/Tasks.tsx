@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import { NoteCard } from "./NoteCard";
+import { TaskCard } from "./TaskCard";
 import { motion } from "framer-motion";
 import { Button } from "~/components/ui/button";
 import Link from "next/link";
@@ -15,25 +15,25 @@ interface Note {
   createdAt: Date;
 }
 
-interface NotesProps {
-  serverNotes: Note[];
+interface TasksProps {
+  serverTasks: Note[];
 }
 
-const Notes = ({ serverNotes }: NotesProps) => {
-  const [originalNotes] = useState(serverNotes);
-  const [filteredNotes, setFilteredNotes] = useState(serverNotes);
+const Tasks = ({ serverTasks }: TasksProps) => {
+  const [originalTasks] = useState(serverTasks);
+  const [filteredTasks, setFilteredTasks] = useState(serverTasks);
   const [searchTerm, setSearchTerm] = useState("");
   const router = useRouter();
 
-  const searchNotes = useMemo(
+  const searchTasks = useMemo(
     () => (searchValue: string) => {
       const lowerSearchTerm = searchValue.toLowerCase().trim();
 
       if (!lowerSearchTerm) {
-        return originalNotes;
+        return originalTasks;
       }
 
-      return originalNotes.filter((note) => {
+      return originalTasks.filter((note) => {
         if (note.title.toLowerCase().includes(lowerSearchTerm)) {
           return true;
         }
@@ -41,16 +41,16 @@ const Notes = ({ serverNotes }: NotesProps) => {
         return truncatedContent.includes(lowerSearchTerm);
       });
     },
-    [originalNotes],
+    [originalTasks],
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const debouncedSearch = useCallback(
     debounce((searchValue: string) => {
-      const results = searchNotes(searchValue);
-      setFilteredNotes(results);
+      const results = searchTasks(searchValue);
+      setFilteredTasks(results);
     }, 300),
-    [searchNotes],
+    [searchTasks],
   );
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const Notes = ({ serverNotes }: NotesProps) => {
       return (
         <div className="flex flex-col items-center justify-center space-y-4 py-12">
           <p className="text-lg text-gray-600">
-            No notes found for &quot;{searchTerm}&quot;
+            No tasks found for &quot;{searchTerm}&quot;
           </p>
           <Button
             className="rounded-md bg-custom-yellow-500 px-3 py-1.5 text-sm font-medium text-custom-dark-900 transition-all duration-300 hover:bg-custom-yellow-400 hover:shadow-lg hover:shadow-custom-yellow-500/20"
@@ -78,13 +78,13 @@ const Notes = ({ serverNotes }: NotesProps) => {
       );
     }
 
-    // If there are no notes at all
+    // If there are no tasks at all
     return (
       <div className="flex flex-col items-center justify-center space-y-4 py-12">
         <p className="text-lg text-gray-600">
-          No notes yet. Create your first note to get started!
+          No tasks yet. Create your first note to get started!
         </p>
-        <Link href="/notes/new">
+        <Link href="/tasks/new">
           <Button className="rounded-md bg-custom-yellow-500 px-3 py-1.5 text-sm font-medium text-custom-dark-900 transition-all duration-300 hover:bg-custom-yellow-400 hover:shadow-lg hover:shadow-custom-yellow-500/20">
             Create Note
           </Button>
@@ -101,7 +101,7 @@ const Notes = ({ serverNotes }: NotesProps) => {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search notes..."
+            placeholder="Search tasks..."
             className="max-w-md border border-custom-yellow-500"
           />
           <Button
@@ -112,7 +112,7 @@ const Notes = ({ serverNotes }: NotesProps) => {
           </Button>
         </div>
         <div>
-          <Link href="/notes/new">
+          <Link href="/tasks/new">
             <Button className="rounded-md bg-custom-yellow-500 px-3 py-1.5 text-sm font-medium text-custom-dark-900 transition-all duration-300 hover:bg-custom-yellow-400 hover:shadow-lg hover:shadow-custom-yellow-500/20">
               New Note
             </Button>
@@ -120,16 +120,16 @@ const Notes = ({ serverNotes }: NotesProps) => {
         </div>
       </div>
       <hr className="my-4" />
-      {filteredNotes.length > 0 ? (
+      {filteredTasks.length > 0 ? (
         <div className="mx-auto grid max-w-6xl gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {filteredNotes.map((note, index) => (
+          {filteredTasks.map((note, index) => (
             <motion.div
               key={note.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
             >
-              <NoteCard
+              <TaskCard
                 id={note.id}
                 title={note.title}
                 content={note.content}
@@ -145,4 +145,4 @@ const Notes = ({ serverNotes }: NotesProps) => {
   );
 };
 
-export default Notes;
+export default Tasks;

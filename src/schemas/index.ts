@@ -55,3 +55,19 @@ export const NoteSchema = z.object({
     ])
     .default([]),
 });
+
+export const TodoSchema = z.object({
+  title: z.string().min(1, { message: "Title is required" }),
+  content: z.string().min(1, { message: "Content is required" }),
+  tags: z
+    .union([
+      z.string().transform((val) =>
+        val
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter((tag) => tag !== ""),
+      ),
+      z.array(z.string()),
+    ])
+    .default([]),
+});

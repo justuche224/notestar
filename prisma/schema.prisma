@@ -25,6 +25,21 @@ model Note {
     @@index([title])
 }
 
+model Todo {
+    id         String    @id @default(cuid())
+    title      String
+    content    String
+    tags       String[]
+    isArchived DateTime?
+    isDeleted  DateTime?
+    userId     String
+    user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    createdAt  DateTime  @default(now())
+    updatedAt  DateTime  @updatedAt
+
+    @@index([title])
+}
+
 model User {
     id                    String                 @id @default(cuid())
     firstname             String
@@ -40,6 +55,7 @@ model User {
     updatedAt             DateTime               @updatedAt
 
     notes Note[]
+    todos Todo[]
 }
 
 model VerificationToken {

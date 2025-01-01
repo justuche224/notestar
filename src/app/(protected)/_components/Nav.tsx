@@ -31,7 +31,7 @@ const Nav = () => {
   const menuItems = [
     { icon: Home, label: "Home", href: "/home" },
     { icon: StickyNote, label: "Notes", href: "/notes" },
-    { icon: CheckSquare, label: "Tasks", href: "/tasks" },
+    { icon: CheckSquare, label: "Tasks", href: "/todos" },
     { icon: Table, label: "Tables", href: "/tables" },
     { icon: Archive, label: "Archive", href: "/archive" },
     { icon: Trash2, label: "Deleted", href: "/deleted" },
