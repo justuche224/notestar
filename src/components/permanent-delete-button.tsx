@@ -5,7 +5,6 @@ import { ClipLoader } from "react-spinners";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import { deleteNote as deleteNoteServer } from "~/server/actions/notes/delete-note";
-import { Card, CardFooter, CardHeader } from "./ui/card";
 import {
   Dialog,
   DialogClose,
