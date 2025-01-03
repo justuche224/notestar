@@ -31,13 +31,13 @@ export default auth((req) => {
     return Response.redirect(new URL("/auth/login", nextUrl));
   }
 
-  if (isLoggedIn && nextUrl.pathname === "/") {
-    return Response.redirect(new URL("/home", nextUrl));
-  }
+  // if (isLoggedIn && nextUrl.pathname === "/") {
+  //   return Response.redirect(new URL("/home", nextUrl));
+  // }
 
-  if (!isLoggedIn && nextUrl.pathname === "/") {
-    return Response.redirect(new URL("/auth/login", nextUrl));
-  }
+  // if (!isLoggedIn && nextUrl.pathname === "/") {
+  //   return Response.redirect(new URL("/auth/login", nextUrl));
+  // }
 
   return NextResponse.next();
 });

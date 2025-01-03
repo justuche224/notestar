@@ -48,9 +48,9 @@ const Home = ({ recentNotes, recentTasks }: HomeProps) => {
       >
         {[
           { href: "/notes/new", icon: Plus, label: "New Note" },
-          { href: "/tasks/new", icon: Plus, label: "New Task" },
+          { href: "/todos/new", icon: Plus, label: "New Todo" },
           { href: "/notes", icon: Book, label: "Notes" },
-          { href: "/tasks", icon: CheckSquare, label: "Tasks" },
+          { href: "/todos", icon: CheckSquare, label: "Todos" },
         ].map(({ href, icon: Icon, label }) => (
           <Link key={href} href={href}>
             <Button className="h-16 w-full border border-custom-dark-700 bg-custom-dark-900 text-custom-yellow-500 transition-all hover:border-custom-yellow-600 hover:bg-custom-dark-800">
@@ -74,7 +74,9 @@ const Home = ({ recentNotes, recentTasks }: HomeProps) => {
           <Card className="border-custom-dark-700 bg-custom-dark-900">
             <CardHeader className="border-b border-custom-dark-700 py-3">
               <CardTitle className="flex items-center justify-between">
-                <span className="text-lg text-custom-yellow-500">Recent Notes</span>
+                <span className="text-lg text-custom-yellow-500">
+                  Recent Notes
+                </span>
                 <Link href="/notes">
                   <Button
                     variant="ghost"
@@ -112,7 +114,9 @@ const Home = ({ recentNotes, recentTasks }: HomeProps) => {
           <Card className="border-custom-dark-700 bg-custom-dark-900">
             <CardHeader className="border-b border-custom-dark-700 py-3">
               <CardTitle className="flex items-center justify-between">
-                <span className="text-lg text-custom-yellow-500">Recent Tasks</span>
+                <span className="text-lg text-custom-yellow-500">
+                  Recent Tasks
+                </span>
                 <Link href="/tasks">
                   <Button
                     variant="ghost"
