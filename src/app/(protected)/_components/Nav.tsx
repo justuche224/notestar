@@ -40,7 +40,7 @@ const Nav = () => {
   return (
     <nav className="fixed top-0 flex w-full items-center justify-between bg-black/50 px-4 py-2 shadow-md backdrop-blur-md">
       <div className="flex items-center gap-2">
-        <div id="mobile-menu" className="md:hidden">
+        <div id="mobile-menu" className="z-[9999] md:hidden">
           <Drawer>
             <DrawerTrigger className="rounded border border-custom-yellow-500 hover:border-white hover:text-custom-yellow-500">
               <Menu className="h-6 w-6" />
