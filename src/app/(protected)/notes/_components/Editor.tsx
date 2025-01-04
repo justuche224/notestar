@@ -50,6 +50,7 @@ import {
 } from "lucide-react";
 import { Progress } from "~/components/ui/progress";
 import { NoteSaveModal } from "~/components/modals/NoteSaveModal";
+import logger from "~/utils/logger";
 const MenuBar = ({ content }: { content: string }) => {
   const { editor } = useCurrentEditor();
   const [openSave, setOpenSave] = useState(false);
@@ -509,6 +510,7 @@ const Editor = ({ serverContent }: editorProps) => {
   }, [serverContent]);
   const handleUpdate = ({ editor }: { editor: EditorType }) => {
     const newContent = editor.getHTML();
+    logger.info(newContent);
     setContent(newContent);
   };
   if (loading) {
