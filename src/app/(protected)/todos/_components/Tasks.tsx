@@ -84,7 +84,7 @@ const Tasks = ({ serverTasks }: TasksProps) => {
         <p className="text-lg text-gray-600">
           No tasks yet. Create your first note to get started!
         </p>
-        <Link href="/tasks/new">
+        <Link href="/todos/new">
           <Button className="rounded-md bg-custom-yellow-500 px-3 py-1.5 text-sm font-medium text-custom-dark-900 transition-all duration-300 hover:bg-custom-yellow-400 hover:shadow-lg hover:shadow-custom-yellow-500/20">
             Create Note
           </Button>
@@ -112,7 +112,7 @@ const Tasks = ({ serverTasks }: TasksProps) => {
           </Button>
         </div>
         <div>
-          <Link href="/tasks/new">
+          <Link href="/todos/new">
             <Button className="rounded-md bg-custom-yellow-500 px-3 py-1.5 text-sm font-medium text-custom-dark-900 transition-all duration-300 hover:bg-custom-yellow-400 hover:shadow-lg hover:shadow-custom-yellow-500/20">
               New Note
             </Button>
